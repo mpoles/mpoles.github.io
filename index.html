@@ -1,478 +1,250 @@
-<html>
-	<head>
-    <title>Поляков М.А.|ИДБ-15-13</title>
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
     <meta charset="utf-8" />
-  
-<meta name="color:Background" content="#FFFFFF">
-    <meta name="color:Body Text" content="#000000">
-    <meta name="color:Links" content="#333333">
-    <meta name="color:Title" content="#333333">
-    <meta name="color:Meta" content="#CCCCCC">
-    <meta name="color:Dividers" content="#F2F2F2">
-    <meta name="image:Logo" content="">
-    <meta name="select:Page Width" content="500px" title="Standard">
-    <meta name="select:Page Width" content="700px" title="Wide">
-
-    <style type="text/css">
-      html {
-        background-color: #FFFFFF;
-            -webkit-font-smoothing: antialiased;
-      }
-      body {
-        color: #000000;
-        font-family: 'Helvetica Neue', "Arial", sans-serif;
-        font-size: 12px;
-        line-height:1.8em;
-      }
-      h1, h2, h3, h4, h5 {
-        font-family: 'Montserrat', 'Helvetica Neue', "Arial", sans-serif;
-        font-weight: 400;
-      }
-      h1 {
-        font-size: 48px;
-        line-height: 48px;
-      }
-      h2 {
-        font-size: 32px;
-        line-height: 38px;
-      }
-      h3 {
-        font-size: 22px;
-        line-height: 28px;
-      }
-      a:link, a:visited {
-        color: #333333;
-        text-decoration: none;
-      }
-      a:hover, a:active {
-        text-decoration: underline;
-      }
-      hr {
-        border:0 #aaa solid;
-        border-top-width:1px;
-        clear:both;
-        height:0;
-      }
-      ol {
-        list-style:decimal;
-      }
-      ul {
-        list-style:disc;
-        margin-left:0px;
-      }
-      li {
-        margin-left:0px;
-      }
-      p, dl, hr, h1, h2, h3, h4, h5, h6, ol, ul, pre, table, address, fieldset {
-        margin: 0 0 15px 0;
-      }
-      .wrapper {
-        max-width: 500px;
-        max-width:700px!important;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-      .header {
-        margin:0 auto;
-      }
-      .logotitle {
-        margin: 50px 0;
-      }
-      .logo {
-        text-align: center;
-      }
-      .title {
-        text-align: center;
-        text-transform: uppercase;
-        font-size: 24px;
-        font-weight: 100;
-        letter-spacing: 5px;
-        font-family: 'Montserrat', 'Helvetica Neue', "Arial", sans-serif;
-      }
-      .title a {
-        color: #333333;
-      }
-      .description {
-        text-align: center;
-        padding: 20px 0 20px 0;
-        border-top: 2px solid #F2F2F2;
-      }
-      .nav {
-        display:block;
-        list-style: none;
-        padding: 20px 0;
-        margin: 0;
-        text-align: center;
-        font-size: 11px;
-        text-transform: uppercase;
-        font-weight: 700;
-        border-top: 2px solid #F2F2F2;
-        border-bottom: 2px solid #F2F2F2;
-        font-family: 'Montserrat', 'Helvetica Neue', "Arial", sans-serif;
-      }
-      .nav li {
-        margin: 10px;
-        display: inline;
-      }
-      .posts {
-        padding-top: 60px;
-      }
-      iframe {
-        max-width: 100%;
-      }
-      .tumblr_video_container {
-        width: 100% !important;
-        height: 100% !important;
-      }
-      .header-posts {
-        padding: 0;
-      }
-      .meta {
-        display: block;
-        height:14px;
-        line-height:1em;
-        font-family: 'Montserrat', 'Helvetica Neue', "Arial", sans-serif;
-        padding-bottom:60px;
-        margin-top: 10px;
-        font-size:11px;
-        color: #CCCCCC;
-        text-transform: uppercase;
-        border-bottom: 2px solid #F2F2F2;
-      }
-      .meta a {
-        color: #CCCCCC;
-      }
-      .date {
-        margin-right: 20px;
-      }
-      .quote {
-        font-size: 30px;
-        font-family: 'Merriweather', serif;
-        letter-spacing: -1px;
-        line-height: 1.2em;
-        padding-bottom: 10px;
-      }
-      blockquote {
-        margin-left: 20px;
-        padding-left: 15px;
-        border-left: 3px #999999 solid;
-      }
-      .chat {
-        list-style: none;
-        padding: 0;
-      }
-      .tags {
-        display: block;
-        list-style: none;
-        padding: 0;
-        margin: 10px 0 0 0;
-      }
-      .tags a {
-        color: #CCCCCC;
-      }
-      .tags ul {
-        list-style-type: none;
-        display:inline;
-        margin: 0;
-        padding: 0;
-      }
-      .tags li {
-        margin: 0;
-        padding-right: 10px;
-        display:inline;
-      }
-      .footer {
-        text-align: center;
-        padding-bottom: 25px;
-        padding-top: 40px;
-      }
-      .notes {
-        border-bottom: 2px solid #F2F2F2;
-        list-style: none;
-        padding: 20px 0 50px 0;
-        margin: 30px 0 0 0;
-        line-height: 2.2em;
-      }
-      .notes li {
-        margin: 0;
-      }
-      .notes .avatar {
-        margin: 0 5px 0 0;
-        position: relative;
-        top: 5px;
-      }
-      .notes blockquote {
-        margin: 10px 0 0 35px;
-        padding-left: 10px;
-        border-left: 2px solid #999999;
-      }
-      .media {
-        margin-bottom: 20px;
-      }
-      .posts img {
-        width: 100%;
-      }
-      
-      #infscr-loading, .pagination {
-        display: none !important;
-      }
-      
-     .pagination {
-        text-align: center;
-        font-weight:700;
-        border-bottom: 2px solid #F2F2F2;
-      }
-      .pagination ul {
-        list-style: none;
-        padding: 10px 15px;
-        margin: 10px 0;
-      }
-      .pagination li {
-        margin: 0 2px 0 2px;
-        display: inline;
-      }
-      #pagination a:link, #pageNav a:visited {
-        padding: 0;
-        margin: 0 2px;
-        text-decoration: none;
-      }
-      #pagination a:hover, #pageNav a:active, #pageNav a.active:link, #pageNav a.active:visited {
-        text-decoration: underline;
-      }
-      #older:after {
-        content: " Â»";
-      }
-      #newer:before {
-        content: "Â« ";
-      }
-      .datenotes {
-        float: left;
-      }
-      .like-button {
-        display: inline-block;
-        float: right;
-        padding: 3px 0 0 10px;
-      }
-      .reblog-button {
-        display: inline-block;
-        float: right;
-        padding: 3px 0 0 0;
-      }
-      #install-btn {
-        position:fixed;
-        bottom: 0px;
-        right:6px
-      }
-      .animated {
-        -webkit-animation-fill-mode: both;
-        -moz-animation-fill-mode: both;
-        -ms-animation-fill-mode: both;
-        -o-animation-fill-mode: both;
-        animation-fill-mode: both;
-        -webkit-animation-duration: 1s;
-        -moz-animation-duration: 1s;
-        -ms-animation-duration: 1s;
-        -o-animation-duration: 1s;
-        animation-duration: 1s;
-      }
-      .animated.hinge {
-        -webkit-animation-duration: 1s;
-        -moz-animation-duration: 1s;
-        -ms-animation-duration: 1s;
-        -o-animation-duration: 1s;
-        animation-duration: 1s;
-      }
-      @-webkit-keyframes fadeInDown {
-        0% {
-          opacity: 0;
-          -webkit-transform: translateY(-20px);
-        }
-        100% {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-        }
-      }
-      @-moz-keyframes fadeInDown {
-        0% {
-          opacity: 0;
-          -moz-transform: translateY(-20px);
-        }
-        100% {
-          opacity: 1;
-          -moz-transform: translateY(0);
-        }
-      }
-      @-o-keyframes fadeInDown {
-        0% {
-          opacity: 0;
-          -o-transform: translateY(-20px);
-        }
-        100% {
-          opacity: 1;
-          -o-transform: translateY(0);
-        }
-      }
-      @keyframes fadeInDown {
-        0% {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .fadeInDown {
-        -webkit-animation-name: fadeInDown;
-        -moz-animation-name: fadeInDown;
-        -o-animation-name: fadeInDown;
-        animation-name: fadeInDown;
-      }
-    </style>
-
+    <link href="https://denismayorko.github.io/Site.css" type="text/css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <title></title>
 </head>
-	
 <body>
-		
-    <div class="wrapper">
-      <div class="header">
-        <div class="logotitle animated fadeInDown">
-          <div class="title">
-            <a href="https://github.com/stankin/design-2019/wiki/%D0%98%D0%94%D0%91_15_13">ИДБ-15-13 Поляков М.А.</a>
-          </div>
+    <div class="page-body">
+        <div class="page-head">
+            <div class="ref-container">
+                <a href="#lab1">Лабораторная №1</a>
+                <a href="#lab2">Лабораторная №2</a>
+                <a href="#lab3">Лабораторная №3</a>
+                <a href="#lab4">Лабораторная №4</a>
+                <a href="#lab5">Лабораторная №5</a>
+                <a href="#lab6">Лабораторная №6</a>
+                <a href="#lab7">Лабораторная №7</a>
+            </div>
         </div>
-        <ul class="nav">
-		<li><a href="#лабораторная-работа-1" id="lr1-link"><span class="icon fa-th">ЛР1</span></a></li>
-		<li><a href="#лабораторная-работа-2" id="lr2-link"><span class="icon fa-th">ЛР2</span></a></li>
-		<li><a href="#лабораторная-работа-3" id="lr3-link"><span class="icon fa-th">ЛР3</span></a></li>
-		<li><a href="#лабораторная-работа-4" id="lr4-link"><span class="icon fa-th">ЛР4</span></a></li>
-		<li><a href="#лабораторная-работа-5" id="lr5-link"><span class="icon fa-th">ЛР5</span></a></li>
-		<li><a href="#лабораторная-работа-6" id="lr6-link"><span class="icon fa-th">ЛР6</span></a></li>
-		<li><a href="#лабораторная-работа-7" id="lr7-link"><span class="icon fa-th">ЛР7</span></a></li>
-        </ul>
-	</div>
-	    	
-	
-	<section id="lr1">
-		<h1>Лабораторная работа 1</h1>
-
-<h3>1. Идентификатор прецедента</h3>
-
-<p>Социальный веб-сервис</p>
-
-<h3>2. Название прецедента</h3>
-
-<p>Обмен авторским контентом при поддержке рекламного алгоритма монетизации</p>
-
-<h3>3. Контекст</h3>
-
-<p>Социальная сеть как метод компьютерно-опосредованной коммуникации</p>
-
-<h3>4. Участники (actors) и цели (goals)</h3>
-
-<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
-	<thead>
-		<tr>
-			<th scope="col">Участник</th>
-			<th scope="col">Категория</th>
-			<th scope="col">Цель</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Владелец продукта</td>
-			<td>Основной</td>
-			<td>Получить результат работы</td>
-		</tr>
-		<tr>
-			<td>Разработчик</td>
-			<td>Основной</td>
-			<td>Разработать продукт (выполнить задачи)</td>
-		</tr>
-    <tr>
-			<td>Авторы</td>
-			<td>Внешний</td>
-			<td>Распространение контента</td>
-		</tr>
-		<tr>
-			<td>Рекламодатели</td>
-			<td>Внешний</td>
-			<td>Предоставить финансовую поддержку авторов</td>
-		</tr>
-		<tr>
-			<td>Система управления проектами</td>
-			<td>Инструмент</td>
-			<td>Предоставить КИС</td>
-		</tr>
-		<tr>
-			<td>Алгоритм монетизации</td>
-			<td>Инструмент</td>
-			<td>Распределение финансовой поддержки авторов</td>
-		</tr>
-    <tr>
-			<td>Алгоритм персонализации</td>
-			<td>Инструмент</td>
-			<td>Распределение распространяемого контента</td>
-		</tr>
-	</tbody>
-</table>
-
-<h3>5. Предусловия (pre-conditions)</h3>
-
-<ul>
-	<li>Сформированы и подготовлены требования.</li>
-	<li>Спроектированы подсистемы продукта</li>
-	<li>Разработчик имеет необходимый уровень подготовки для работы над проектом</li>
-</ul>
-
-<h3>6. Постусловия (post-conditions)</h3>
-
-<ul>
-	<li>Результат разработки соответствует требованиям</li>
-	<li>Проект готов к апробации и наращиванию аудитории (внешних участников)</li>
-</ul>
-
-<h3>7. Основной поток (main flow)</h3>
-
-<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
-	<thead>
-		<tr>
-			<th scope="col">Участник</th>
-			<th scope="col">Действие</th>
-			<th scope="col">Ожидаемый резульат</th>
-		</tr>
-	</thead>
-	<tbody>
-    <tr>
-			<td>Владелец продукта</td>
-			<td>Формирует требования к продукту</td>
-			<td>Требования сформированы</td>
-		</tr>
-    <tr>
-			<td>Владелец продукта</td>
-			<td>Проектирует принцип работы подсистем</td>
-			<td>Проект готов к этапу разработки</td>
-		</tr>
-		<tr>
-			<td>Команда разработки</td>
-			<td>Выполняет разработку продукта</td>
-			<td>Задачи выполняются</td>
-		</tr>
-	</tbody>
-</table>
-
-<h3>8. Исключения (exceptions)</h3>
-
-<ul>
-	<li>Разработчик не выполнил работу в срок</li>
-	<li>Разработчик оказался неспособным подготовить проект отвечающим сформированным требованиям</li>
-</ul>
-
-<h3>9. Альтернативы (alternates)</h3>
-
-<p>Владелец изменил требования к проекту</p>
-
-	</section>
-	    </div>
+        <div class="page-content">
+            <div id="lab1" class="lab-page">
+                <h2>Лабораторная работа №1</h2>
+                <hr />
+                <div>
+                    <img src="https://denismayorko.github.io/CommonUml.png" />
+                </div>
+                <h4>1. Идентификатор прецедента</h4>
+                <div>Рекламный сайт</div>
+                <h4>2. Название прецедента</h4>
+                <div>Рекламный сайт услуг организаторов дегустаций</div>
+                <h4>3. Контекст</h4>
+                <div>Разработка сайта</div>
+                <h4>4. Участники (actors) и цели (goals)</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="left">Участник</th>
+                            <th align="left">Категория</th>
+                            <th align="left">Цель (goal)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="left">Разработчик</td>
+                            <td align="left">Основной</td>
+                            <td align="left">Разработка кода</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Руководитель</td>
+                            <td align="left">Внешний</td>
+                            <td align="left">Финансирование и отслеживание работы</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Дизайнер</td>
+                            <td align="left">Основной</td>
+                            <td align="left">Графически оформить работу</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Тестировщик</td>
+                            <td align="left">Основной</td>
+                            <td align="left">Сократить количество ошибок</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Управляющий проектом</td>
+                            <td align="left">Основной</td>
+                            <td align="left">Оформление документов</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Репозиторий</td>
+                            <td align="left">Инструмент</td>
+                            <td align="left">Предоставить место размещения</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Среда разработки</td>
+                            <td align="left">Инструмент</td>
+                            <td align="left">Разработать сайт</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Хостинг</td>
+                            <td align="left">Инструмент</td>
+                            <td align="left">Размещение сайта</td>
+                        </tr>
+                        <tr>
+                            <td align="left">PlantUML</td>
+                            <td align="left">Инструмент</td>
+                            <td align="left">Предоставить средства генерации диаграмм</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>5. Предусловия</h4>
+                <ul>
+                    <li>Заказчик сформировал свою идею и подготовил требования.</li>
+                    <li>Выбрана технология разработки</li>
+                </ul>
+                <h4>6. Постусловия</h4>
+                <ul>
+                    <li>Сайт разработан в срок, указанный в договоре.</li>
+                    <li>Ресурсы не превышены</li>
+                    <li>Заказчик доволен качеством работ</li>
+                </ul>
+                <h4>7. Основной поток</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th align="left">Участник</th>
+                            <th align="left">Действие</th>
+                            <th align="left">Ожидаемый результат</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="left">Разработчик</td>
+                            <td align="left">Формирует личную веб-страницу</td>
+                            <td align="left">Личная веб-страница на хостинге</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Разработчик</td>
+                            <td align="left">Описывает выбранный прецедент</td>
+                            <td align="left">Описание прецедента на хостинге</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Разработчик</td>
+                            <td align="left">Формирует диаграмму User Case</td>
+                            <td align="left">Диаграмма прецедента на хостинге</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Заказчик</td>
+                            <td align="left">Формирует требования</td>
+                            <td align="left">Следит за выполнением</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>8. Исключения</h4>
+                <ul>
+                    <li>Не выполнение требований заказчика</li>
+                    <li>Превышение ресурсов</li>
+                    <li>Превышение сроков</li>
+                </ul>
+                <h4>9. Альтернатива</h4>
+                <ul>
+                    <li>Изменение требований заказчика</li>
+                </ul>
+            </div>
+            <br />
+            <hr />
+            <div id="lab2" class="lab-page">
+                <h2>Лабораторная работа №2</h2>
+                <hr />
+                <br />
+                <h4>Роли в команде</h4>
+                <h5>СП Системное программирование - Реализатор (Доводчик, Аналитик, Completer-Finisher) - System analyst</h5>
+                <div>
+                    Реализаторам присущи практический здравый смысл и хорошее чувство самоконтроля и дисциплины. Они любят тяжелую работу и преодоление проблем в системном режиме.
+                    <br />
+                    <br />
+                    В web-разработке люди, связанные с базами данных и серверами, пишут то, что не видит клиент. Их цель в проекте -написать основу страницы (разметку и структуру страницы). При использовании внешнего сервера или cms - их настройка и вывод информации на экран.
+                </div>
+                <h4>Проект</h4>
+                <ul>
+                    <li>Рекламный сайт услуг организаторов дегустаций</li>
+                </ul>
+                <h4>Задача проекта</h4>
+                <ul>
+                    <li>Программная реализация функций</li>
+                </ul>
+                <h4>Стратегия управления рисками</h4>
+                <ul>
+                    <li>Снижение</li>
+                    <li>Принятие</li>
+                </ul>
+                <h4>Мероприятия управления рисками</h4>
+                <ul>
+                    <li>Повышение квалификации специалистов путем изучения учебного материала</li>
+                </ul>
+                <h4>Статусы задач в канбан-доске</h4>
+                <ul>
+                    <li>Бэклог</li>
+                    <li>Разработка</li>
+                    <li>Внедрение</li>
+                    <li>Завершено</li>
+                </ul>
+            </div>
+            <br />
+            <hr />
+            <div id="lab3" class="lab-page">
+                <h2>Лабораторная работа №3</h2>
+                <hr />
+                <br />
+                <h4>Задача</h4>
+                <ul>
+                    <li>Своя задача по проекту рекламного сайта дегустаций</li>
+                </ul>
+                <div>Реализовать механизм покупки бронирования на дегустации</div>
+            </div>
+            <br />
+            <hr />
+            <div id="lab4" class="lab-page">
+                <h2>Лабораторная работа №4</h2>
+                <hr />
+                <br />
+                <img src="https://denismayorko.github.io/XyHZmUY3Q6U.jpg"/>
+            </div>
+            <br />
+            <hr />
+            <div id="lab5" class="lab-page">
+                <h2>Лабораторная работа №5</h2>
+                <hr />
+                <br />
+                <h4>Распределение ролей в команде</h4>
+                <ul>
+                    <li><b>Владимир Головцов</b> - ВН, КО</li>
+                    <li><b>Майорко Денис</b> - БА, ПП</li>
+                    <li><b>Михаил Поляков</b> - РП, СП, НИ, АД</li>
+                </ul>
+            </div>
+            <div id="lab6" class="lab-page">
+                <h2>Лабораторная работа №6</h2>
+                <hr />
+                <br />
+                <h4>Создать тест для тестирования конечного программного продукта</h4>
+                <a href="https://denismayorko.github.io/ProductControllerTest.cs">Код</a>
+            </div>
+            <div id="lab7" class="lab-page">
+                <h2>Лабораторная работа №7</h2>
+                <hr />
+                <br />
+                <h4>Программный модуль</h4>
+                <a href="https://savoryfest.com/events/2">Проект и пример реализации</a>
+                <br />
+                <br />
+                <h4>Скриншот работы</h4>
+                <img src="https://denismayorko.github.io/Program.png" />
+                <br />
+                <br />
+                <h4>Код задачи</h4>
+                <a href="https://denismayorko.github.io/ProductController.cs">Полный код создаваемого модуля</a>
+                <br />
+                <br />
+                <h4>Результат проведения тестирования</h4>
+                <div style="display:flex;justify-content:center;">
+                    <img src="https://denismayorko.github.io/Testing.png" style="width:50%" />
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
