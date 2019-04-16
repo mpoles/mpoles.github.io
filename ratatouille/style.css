@@ -8,8 +8,7 @@ body{
     height: 700px;
     text-align: center;
     text-shadow: 0 0 2px #abc;
-    padding-top: 3em;
-    overflow: hidden
+    padding-top: 3em
 }
 .head img{
     position: absolute;
