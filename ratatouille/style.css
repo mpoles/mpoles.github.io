@@ -9,6 +9,10 @@ Opera Mini          No
 Opera Mobile    Kinda
 Safari          Yes
 
+#element.nativescroll {
+    -webkit-overflow-scrolling: touch;
+}
+
 body{
     overflow-x: hidden;
     margin: 0;
