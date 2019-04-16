@@ -23,7 +23,7 @@ body,html{
     overflow: hidden
 }
 .head img{
-    position: absolute;
+    position: fixed;
     right: -32em;
     top: 9em;
     transform: rotate(-9deg);
