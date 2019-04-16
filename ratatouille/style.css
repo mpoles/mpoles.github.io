@@ -133,7 +133,7 @@ tr{
     box-shadow: 0 0 1px #aaa
 }
 tr:nth-child(odd){
-    background: #aef
+    background: #dde
 }
 tr:nth-child(even){
     background: #fff
