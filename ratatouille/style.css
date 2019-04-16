@@ -76,7 +76,7 @@ h2,h4{
     text-shadow: 0 0 1px #88a;
     position: relative;
     top: 0;
-    transition: top 0.5s ease;
+    transition: top 0.5s ease
 }
 .block:nth-child(odd){
     background: #779;
