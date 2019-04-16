@@ -1,7 +1,8 @@
 body{
     overflow-x: hidden;
     margin: 0;
-    font-family: "century gothic","trebuchet ms","franklin gothic",sans-serif
+    font-family: "century gothic","trebuchet ms","franklin gothic",sans-serif;
+    position: relative
 }
 .head{
     width: 100%;
