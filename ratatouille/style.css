@@ -1,25 +1,17 @@
-Browser Overflow scroll:
-
-Android Browser Yes
-Blackberry Browser  Yes
-Chrome for Mobile   Yes
-Firefox Mobile  Yes
-IE Mobile           Yes
-Opera Mini          No
-Opera Mobile    Kinda
-Safari          Yes
-
-#element.nativescroll {
+BODY{
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    overflow: -moz-scrollbars-none;
     -webkit-overflow-scrolling: touch;
+    font-family: "century gothic","trebuchet ms","franklin gothic",sans-serif;
 }
 
-body{
-    overflow-x: hidden;
-    margin: 0;
-    font-family: "century gothic","trebuchet ms","franklin gothic",sans-serif;
+body,html{
+    margin: 0 auto;
     position: relative;
-    width: 100%
+    overflow-x: hidden;
+    -webkit-tap-highlight-color:  transparent
 }
+
 .head{
     width: 100%;
     height: 700px;
