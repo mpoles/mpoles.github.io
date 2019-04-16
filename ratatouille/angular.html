@@ -1,0 +1,84 @@
+<html lang="ru">
+<head>
+    <title>Angular Ratatouille</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-language" content="ru">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <link rel="apple-touch-icon" href="/ratatouille//apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/ratatouille//favicon.png">
+    <meta name="theme-color" content="#eeddaa">
+    <style>
+        body{
+            max-height: 600px;
+            height:600px;
+            max-width:600px;
+            width:600px;
+            margin:0 auto;
+            position:relative;
+            font-family: "century gothic","franklin gothic",sans-serif;
+            text-align:center
+        }
+        input,select{
+            border-radius: 1em;
+            width: 4em;
+            text-align: center
+        }
+        input+span,select+span{
+            position: relative;
+            margin: 1em
+        }
+        #a+span::after,#b+span::after,#operator+span::after{
+            position: absolute;
+            top: 2em;
+            right: 0;
+            width: 5em;
+            color: #777;
+            font-size: 12px
+        }
+        #a+span::after{
+            content: 'Число 1'
+        }
+        #b+span::after{
+            content: 'Число 2'
+        }
+        #operator+span::after{
+            content: 'Оператор'
+        }
+        p{
+            margin: 4em
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <img src="/ratatouille//calculator.png" alt="Никому не нужный калькулятор">
+    <h2>Вас приветствует никому не нужный калькулятор!</h2>
+    <div ng-app="CalculatorApp" ng-controller="CalculatorController">
+        <p><input type="number" ng-model="a" id="a"><span></span> <select ng-model="operator" id="operator"><option>+</option><option>-</option><option>*</option><option>/</option></select><span></span> <input id="b" type="number" ng-model="b"><span></span></p>
+        <p>Результат: {{ result() }}</p>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('CalculatorApp', [])
+        .controller('CalculatorController', function($scope) {
+            $scope.result = function() {
+                if ($scope.operator == '+') {
+                    return $scope.a + $scope.b;
+                }
+                if ($scope.operator == '-') {
+                    return $scope.a - $scope.b;
+                }
+                if ($scope.operator == '*') {
+                    return $scope.a * $scope.b;
+                }
+                if ($scope.operator == '/') {
+                    return $scope.a / $scope.b;
+                }
+            };
+        });
+</script>
+</body>
+</html>
