@@ -5,9 +5,12 @@ BODY{
     font-family: "century gothic","trebuchet ms","franklin gothic",sans-serif;
 }
 
+html{
+    position: relative
+}
+
 body,html{
     margin: 0 auto;
-    position: relative;
     overflow-x: hidden;
     -webkit-tap-highlight-color:  transparent
 }
