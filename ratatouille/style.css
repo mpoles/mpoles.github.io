@@ -3,16 +3,12 @@ BODY{
     overflow: -moz-scrollbars-none;
     -webkit-overflow-scrolling: touch;
     font-family: "century gothic","trebuchet ms","franklin gothic",sans-serif;
-}
-
-html{
-    position: relative
+    overflow-x: hidden;
+    -webkit-tap-highlight-color:  transparent
 }
 
 body,html{
-    margin: 0 auto;
-    overflow-x: hidden;
-    -webkit-tap-highlight-color:  transparent
+    margin: 0
 }
 
 .head{
