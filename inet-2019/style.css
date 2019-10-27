@@ -283,4 +283,7 @@ hr{
         bottom: 31px;
         width: 9em
     }
+    .pointerl,.pointerr{
+        display: none
+    }
 }
