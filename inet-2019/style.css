@@ -184,7 +184,8 @@ h2,h4{
 .image{
     width: 90%;
     text-align: center;
-    margin: 0 auto
+    margin: 0 auto;
+    display: inline-block
 }
 .image img{
     max-width: 100%;
@@ -192,6 +193,19 @@ h2,h4{
     border-radius: 9px;
     padding: 9px;
     background: #557
+}
+.pointerl,.pointerr{
+    width: 9%;
+    position: relative;
+    top: 4em
+}
+.pointerl{
+    float: left;
+    right: 1em
+}
+.pointerr{
+    float: right;
+    left: 2em
 }
 .tech{
     text-align: center
@@ -269,20 +283,4 @@ hr{
         bottom: 31px;
         width: 9em
     }
-}
-
-#bugs {
-    height: 300px;
-    width: 60%;
-    margin: 0 auto;
-    text-align: center
-}
-
-#bugs button{
-    background: #696;
-    border-radius: 1em;
-    font-family: inherit;
-    padding: 1em;
-    color: inherit;
-    cursor: pointer
 }
