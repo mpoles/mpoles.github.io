@@ -3,7 +3,7 @@ var main = function () {
         event.preventDefault();
         var n = +$('.n').val();
         var v = +$('.v').val();
-        var t = +$('.t').val()/100;
+        var t = +$('.t').val()/10;
         var h = +$('.h').val();
         var gap = +$('.gap').val();
         var k = +$('.k').val();
