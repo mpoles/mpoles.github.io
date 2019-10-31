@@ -17,14 +17,14 @@ var main = function () {
         }
         for (var j=0; j<=k; j++) {
             for (i = 1; i < n - 1; i++) {
-                moment += v * v * (graph[i + 1][1] - 2 * graph[i][1] + graph[i - 1][1]) * t / h / h;
+                moment = v * v * (graph[i + 1][1] - 2 * graph[i][1] + graph[i - 1][1]) * t / h / h;
                 point[i] = moment;
             }
 
             graph[0] = [0, 0];
             graph[n - 1] = [n - 1, 0];
             for (i = 1; i < n - 1; i++) {
-                graph[i] += [i, (point[i] * t)];
+                graph[i] = [i, (point[i] * t)];
             }
         }
         $.plot($(".graph"), [graph]);
