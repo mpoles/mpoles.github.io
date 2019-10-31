@@ -1,24 +1,33 @@
 var main = function () {
     $(".ok").on('click', function(event) {
         event.preventDefault();
+        var n = +$('.n').val();
+        var v = +$('.v').val();
+        var t = +$('.t').val()/10;
         var h = +$('.h').val();
-        var p = +$('.p').val();
-        var hbirth = +$('.hbirth').val()/100;
-        var pbirth = +$('.pbirth').val()/100;
-        var hdeath = +$('.hdeath').val()/100;
-        var pdeath = +$('.pdeath').val()/100;
-        var scale = +$('.scale').val();
-        var herb = 0;
-        var hgraph = [];
-        var pgraph = [];
-        for (var i=0; i<=scale; i++){
-            herb = h + (h * hbirth - hdeath * h * p);
-            p += pbirth * h * p - p * pdeath;
-            h = herb;
-            hgraph.push([i,h]);
-            pgraph.push([i,p]);
+        var gap = +$('.gap').val();
+        var k = +$('.k').val();
+        graph = new Array(n);
+        point = new Array(n);
+        var i;
+        graph[0]=[0,gap];
+        var moment=0;
+        for (i = 1; i < n; i++) {
+            graph[i] = [i, 0];
         }
-        $.plot($(".graph"), [hgraph,pgraph]);
+        for (var j=0; j<=k; j++) {
+            for (i = 1; i < n - 1; i++) {
+                moment = v * v * (graph[i + 1][1] - 2 * graph[i][1] + graph[i - 1][1]) * t / gap / gap;
+                point[i] = moment;
+            }
+
+            graph[0] = [0, 0];
+            graph[n - 1] = [n - 1, 0];
+            for (i = 1; i < n - 1; i++) {
+                graph[i] = [i, (point[i] * t)];
+            }
+        }
+        $.plot($(".graph"), [graph]);
     });
 };
 
