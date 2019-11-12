@@ -1,0 +1,477 @@
+<html lang="ru">
+<head>
+    <title>Михаил Поляков. Отчёт по лабам</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="content-language" content="ru">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="apple-touch-icon" href="ratatouille/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="ratatouille/favicon.png">
+    <meta name="theme-color" content="#777799">
+    <style>
+        body{
+            text-align: center;
+            font-family: "century gothic","trebuchet ms","franklin gothic",sans-serif;
+            font-size: 18px;
+            margin: 0 auto;
+            width: 60%;
+            min-width: 729px
+        }
+        .head{
+            padding: 1em 0 0;
+            text-align: left;
+            width: 99%;
+            background: linear-gradient( to right, #fff, #faa2 10%, #faa3 50%, #faa2 90%, #fff );
+            text-shadow: 0 1px 1px #faa, 2px 3px 4px #fdd;
+            color: #855;
+            display: inline-block;
+            position: relative;
+            max-width: 921px
+        }
+        .pic{
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-left: 2em;
+            opacity: 0.7;
+            background: url(pic4.jpg) no-repeat;
+            background-size: contain;
+            box-shadow: 0 0 3px #a00, inset 0px 0px 9px #777;
+            display: inline-block;
+            transition: ease 1s;
+            position: relative;
+            overflow: hidden
+        }
+        .pic:before{
+            content: '';
+            position: absolute;
+            width: 130%;
+            height: 45%;
+            top: -15%;
+            right: -5%;
+            background: #fff;
+            opacity: 0.3;
+            transform: rotate(10deg);
+            border-bottom-left-radius: 200px 20px;
+            border-bottom-right-radius: 200px 10px;
+            border-top-right-radius: 5px 100px;
+            transition: ease 0.5s
+        }
+        .pic:hover{
+            box-shadow: 0 0 4px #a00, inset 0px 0px 21px #faa;
+            opacity: 0.8
+        }
+        .pic:hover:before{
+            top: -21%;
+            transform: rotate(6deg);
+            opacity: 0.2
+        }
+        .presents{
+            display: inline-block;
+            vertical-align: middle;
+            width: 67%;
+            padding-left: 1em
+        }
+        hr{
+            color: #fdd;
+            background-color: #fee;
+            height: 1px;
+            margin: 1em 0 0;
+            border-radius: 50%;
+            padding: 1px;
+            border-color: #fdd
+        }
+
+        .bubble{
+            border-radius: 50%;
+            width: 129px;
+            height: 121px;
+            box-shadow: 0 0 1px #faa, inset 0 0 1px #fed;
+            padding: 42px 9px 0;
+            text-align: center;
+            font-size: 15px;
+            box-sizing: border-box;
+            color: #bbb;
+            text-shadow: 0 0 2px #daa;
+            display: inline-block;
+            vertical-align: middle;
+            margin: 1em;
+            transform: scale(0.7);
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 120%, #fdd, #fff 29%, #fee 80%, #fff 100%);
+            cursor: pointer;
+            position: relative;
+            left: 0;
+            top: 0;
+            animation: bubble-float-x 7s ease infinite, bubble-float-y 9s ease infinite;
+            text-decoration: none;
+            transition: 0.5s ease
+        }
+        .bubble:first-child{
+            animation: bubble-float-x 9s ease infinite, bubble-float-y 8s ease infinite
+        }
+        .bubble:last-child{
+            animation: bubble-float-x 8s ease infinite, bubble-float-y 9s ease infinite
+        }
+        .bubble:nth-of-type(2){
+            animation: bubble-float-x 8s ease infinite, bubble-float-y 7s ease infinite
+        }
+        .bubble.active{
+            animation: none;
+            box-shadow: 0 0 1px #bbb, inset 0 0 3px #bbb
+        }
+        .bubble:not(.active):hover{
+            animation: bubble-anim 3s ease-out infinite
+        }
+        .bubble:before{
+            right: 21px;
+            transform: rotate(-29deg);
+            content: "";
+            position: absolute;
+            top: 1%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 0px, #ffffff, rgba(255, 255, 255, 0) 58%);
+            -webkit-filter: blur(5px)
+        }
+        .bubble div{
+            font-size: 29px
+        }
+        .active{
+            transform: scale(0.9)
+        }
+        .lab{
+            display: none;
+            text-align: left;
+            font-size: 14px
+        }
+        .lab img{
+            margin: 1em;
+            max-width: 90%
+        }
+        .lab h4,.lab h3,.lab h2{
+            text-align: center
+        }
+        .now{
+            display: block
+        }
+        .show{
+            white-space: nowrap
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 1em;
+            overflow: hidden;
+            font-size: inherit;
+            margin: 2em 0
+        }
+        tr {
+            box-shadow: 0 0 1px #aaa;
+            background: linear-gradient(to right,#fff,#faa2 10%,#faa3 50%,#faa2 90%,#fff)
+        }
+        th, td {
+            padding: 9px
+        }
+        .contact{
+            display: inline-block;
+            border-radius: 1em;
+            width: 69px;
+            height: 32px;
+            position: absolute;
+            margin: 0 auto;
+            top: 2em;
+            left: 0;
+            border: 1px solid #fdd;
+            right: 0;
+            background: #fff;
+            padding: 3px 9px 0;
+            opacity: 0.5
+        }
+        .contact:before{
+            content: "Контакты";
+            font-size: 9px;
+            position: absolute;
+            top: -6px;
+            left: 9px;
+            margin: 0 auto
+        }
+        .contact svg{
+            width: 32px;
+            height: 32px;
+            fill: #855;
+            transition: 0.5s ease
+        }
+        .vk:hover{
+            fill: #68b
+        }
+        .gh:hover{
+            fill: #000
+        }
+        @keyframes bubble-anim {
+            0% {
+                transform: scale(0.8);
+            }
+            20% {
+                transform: scaleY(0.75) scaleX(0.85);
+            }
+            48% {
+                transform: scaleY(0.9) scaleX(0.7);
+            }
+            68% {
+                transform: scaleY(0.78) scaleX(0.82);
+            }
+            80% {
+                transform: scaleY(0.82) scaleX(0.78);
+            }
+            97%, 100% {
+                transform: scale(0.8);
+            }
+        }
+        @keyframes bubble-float-x {
+            0% {
+                left: 0
+            }
+            9%{
+                left: -3px
+            }
+            21%{
+                left: 0
+            }
+            29%{
+                left: 3px
+            }
+            40%{
+                left: 0
+            }
+        }
+        @keyframes bubble-float-y {
+            0% {
+                top: 0
+            }
+            9%{
+                top: -3px
+            }
+            21%{
+                top: 0
+            }
+            29%{
+                top: 3px
+            }
+            40%{
+                top: 0
+            }
+        }
+    </style>
+    <script src="ratatouille/jquery.min.js"></script>
+    <script>
+        var main = function () {
+            var lab = 1;
+            var target = 1;
+            $('.bubble').on('click', function(e) {
+                e.preventDefault();
+                target = $(this).prop("hash")[1];
+                if ((target.length)&&(target!==lab)) {
+                    $('.bubble.active').removeClass('active');
+                    $('.bubble#b'+target).addClass('active');
+                    $('.lab#'+lab).fadeOut(729,function () {
+                        $('.lab.now').removeClass('now');
+                        lab = target;
+                        $('.lab#'+target).fadeIn(729,function () {
+                            $('.lab#'+target).addClass('now');
+                        });
+                    });
+                }
+            });
+        };
+        $(document).ready(main);
+    </script>
+</head>
+<body>
+<div class="head">
+    <div class="presents"><h4>ИДМ-19-04</h4><h2>Михаил Поляков</h2><i>Отчёт по лабораторным работам по дисциплине</i><br>Интернет-технологии</div>
+    <div class="contact">
+        <a href="https://vk.com/mihopol"><svg class="vk" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             width="548.358px" height="548.358px" viewBox="0 0 548.358 548.358"
+             xml:space="preserve">
+<g>
+	<path d="M545.451,400.298c-0.664-1.431-1.283-2.618-1.858-3.569c-9.514-17.135-27.695-38.167-54.532-63.102l-0.567-0.571
+		l-0.284-0.28l-0.287-0.287h-0.288c-12.18-11.611-19.893-19.418-23.123-23.415c-5.91-7.614-7.234-15.321-4.004-23.13
+		c2.282-5.9,10.854-18.36,25.696-37.397c7.807-10.089,13.99-18.175,18.556-24.267c32.931-43.78,47.208-71.756,42.828-83.939
+		l-1.701-2.847c-1.143-1.714-4.093-3.282-8.846-4.712c-4.764-1.427-10.853-1.663-18.278-0.712l-82.224,0.568
+		c-1.332-0.472-3.234-0.428-5.712,0.144c-2.475,0.572-3.713,0.859-3.713,0.859l-1.431,0.715l-1.136,0.859
+		c-0.952,0.568-1.999,1.567-3.142,2.995c-1.137,1.423-2.088,3.093-2.848,4.996c-8.952,23.031-19.13,44.444-30.553,64.238
+		c-7.043,11.803-13.511,22.032-19.418,30.693c-5.899,8.658-10.848,15.037-14.842,19.126c-4,4.093-7.61,7.372-10.852,9.849
+		c-3.237,2.478-5.708,3.525-7.419,3.142c-1.715-0.383-3.33-0.763-4.859-1.143c-2.663-1.714-4.805-4.045-6.42-6.995
+		c-1.622-2.95-2.714-6.663-3.285-11.136c-0.568-4.476-0.904-8.326-1-11.563c-0.089-3.233-0.048-7.806,0.145-13.706
+		c0.198-5.903,0.287-9.897,0.287-11.991c0-7.234,0.141-15.085,0.424-23.555c0.288-8.47,0.521-15.181,0.716-20.125
+		c0.194-4.949,0.284-10.185,0.284-15.705s-0.336-9.849-1-12.991c-0.656-3.138-1.663-6.184-2.99-9.137
+		c-1.335-2.95-3.289-5.232-5.853-6.852c-2.569-1.618-5.763-2.902-9.564-3.856c-10.089-2.283-22.936-3.518-38.547-3.71
+		c-35.401-0.38-58.148,1.906-68.236,6.855c-3.997,2.091-7.614,4.948-10.848,8.562c-3.427,4.189-3.905,6.475-1.431,6.851
+		c11.422,1.711,19.508,5.804,24.267,12.275l1.715,3.429c1.334,2.474,2.666,6.854,3.999,13.134c1.331,6.28,2.19,13.227,2.568,20.837
+		c0.95,13.897,0.95,25.793,0,35.689c-0.953,9.9-1.853,17.607-2.712,23.127c-0.859,5.52-2.143,9.993-3.855,13.418
+		c-1.715,3.426-2.856,5.52-3.428,6.28c-0.571,0.76-1.047,1.239-1.425,1.427c-2.474,0.948-5.047,1.431-7.71,1.431
+		c-2.667,0-5.901-1.334-9.707-4c-3.805-2.666-7.754-6.328-11.847-10.992c-4.093-4.665-8.709-11.184-13.85-19.558
+		c-5.137-8.374-10.467-18.271-15.987-29.691l-4.567-8.282c-2.855-5.328-6.755-13.086-11.704-23.267
+		c-4.952-10.185-9.329-20.037-13.134-29.554c-1.521-3.997-3.806-7.04-6.851-9.134l-1.429-0.859c-0.95-0.76-2.475-1.567-4.567-2.427
+		c-2.095-0.859-4.281-1.475-6.567-1.854l-78.229,0.568c-7.994,0-13.418,1.811-16.274,5.428l-1.143,1.711
+		C0.288,140.146,0,141.668,0,143.763c0,2.094,0.571,4.664,1.714,7.707c11.42,26.84,23.839,52.725,37.257,77.659
+		c13.418,24.934,25.078,45.019,34.973,60.237c9.897,15.229,19.985,29.602,30.264,43.112c10.279,13.515,17.083,22.176,20.412,25.981
+		c3.333,3.812,5.951,6.662,7.854,8.565l7.139,6.851c4.568,4.569,11.276,10.041,20.127,16.416
+		c8.853,6.379,18.654,12.659,29.408,18.85c10.756,6.181,23.269,11.225,37.546,15.126c14.275,3.905,28.169,5.472,41.684,4.716h32.834
+		c6.659-0.575,11.704-2.669,15.133-6.283l1.136-1.431c0.764-1.136,1.479-2.901,2.139-5.276c0.668-2.379,1-5,1-7.851
+		c-0.195-8.183,0.428-15.558,1.852-22.124c1.423-6.564,3.045-11.513,4.859-14.846c1.813-3.33,3.859-6.14,6.136-8.418
+		c2.282-2.283,3.908-3.666,4.862-4.142c0.948-0.479,1.705-0.804,2.276-0.999c4.568-1.522,9.944-0.048,16.136,4.429
+		c6.187,4.473,11.99,9.996,17.418,16.56c5.425,6.57,11.943,13.941,19.555,22.124c7.617,8.186,14.277,14.271,19.985,18.274
+		l5.708,3.426c3.812,2.286,8.761,4.38,14.853,6.283c6.081,1.902,11.409,2.378,15.984,1.427l73.087-1.14
+		c7.229,0,12.854-1.197,16.844-3.572c3.998-2.379,6.373-5,7.139-7.851c0.764-2.854,0.805-6.092,0.145-9.712
+		C546.782,404.25,546.115,401.725,545.451,400.298z"/></g>
+</svg></a>
+        <a href="https://github.com/mpoles/mpoles.github.io"><svg class="gh" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             width="438.549px" height="438.549px" viewBox="0 0 500 500"
+             xml:space="preserve">
+<g>
+	<path d="M409.132,114.573c-19.608-33.596-46.205-60.194-79.798-79.8C295.736,15.166,259.057,5.365,219.271,5.365
+		c-39.781,0-76.472,9.804-110.063,29.408c-33.596,19.605-60.192,46.204-79.8,79.8C9.803,148.168,0,184.854,0,224.63
+		c0,47.78,13.94,90.745,41.827,128.906c27.884,38.164,63.906,64.572,108.063,79.227c5.14,0.954,8.945,0.283,11.419-1.996
+		c2.475-2.282,3.711-5.14,3.711-8.562c0-0.571-0.049-5.708-0.144-15.417c-0.098-9.709-0.144-18.179-0.144-25.406l-6.567,1.136
+		c-4.187,0.767-9.469,1.092-15.846,1c-6.374-0.089-12.991-0.757-19.842-1.999c-6.854-1.231-13.229-4.086-19.13-8.559
+		c-5.898-4.473-10.085-10.328-12.56-17.556l-2.855-6.57c-1.903-4.374-4.899-9.233-8.992-14.559
+		c-4.093-5.331-8.232-8.945-12.419-10.848l-1.999-1.431c-1.332-0.951-2.568-2.098-3.711-3.429c-1.142-1.331-1.997-2.663-2.568-3.997
+		c-0.572-1.335-0.098-2.43,1.427-3.289c1.525-0.859,4.281-1.276,8.28-1.276l5.708,0.853c3.807,0.763,8.516,3.042,14.133,6.851
+		c5.614,3.806,10.229,8.754,13.846,14.842c4.38,7.806,9.657,13.754,15.846,17.847c6.184,4.093,12.419,6.136,18.699,6.136
+		c6.28,0,11.704-0.476,16.274-1.423c4.565-0.952,8.848-2.383,12.847-4.285c1.713-12.758,6.377-22.559,13.988-29.41
+		c-10.848-1.14-20.601-2.857-29.264-5.14c-8.658-2.286-17.605-5.996-26.835-11.14c-9.235-5.137-16.896-11.516-22.985-19.126
+		c-6.09-7.614-11.088-17.61-14.987-29.979c-3.901-12.374-5.852-26.648-5.852-42.826c0-23.035,7.52-42.637,22.557-58.817
+		c-7.044-17.318-6.379-36.732,1.997-58.24c5.52-1.715,13.706-0.428,24.554,3.853c10.85,4.283,18.794,7.952,23.84,10.994
+		c5.046,3.041,9.089,5.618,12.135,7.708c17.705-4.947,35.976-7.421,54.818-7.421s37.117,2.474,54.823,7.421l10.849-6.849
+		c7.419-4.57,16.18-8.758,26.262-12.565c10.088-3.805,17.802-4.853,23.134-3.138c8.562,21.509,9.325,40.922,2.279,58.24
+		c15.036,16.18,22.559,35.787,22.559,58.817c0,16.178-1.958,30.497-5.853,42.966c-3.9,12.471-8.941,22.457-15.125,29.979
+		c-6.191,7.521-13.901,13.85-23.131,18.986c-9.232,5.14-18.182,8.85-26.84,11.136c-8.662,2.286-18.415,4.004-29.263,5.146
+		c9.894,8.562,14.842,22.077,14.842,40.539v60.237c0,3.422,1.19,6.279,3.572,8.562c2.379,2.279,6.136,2.95,11.276,1.995
+		c44.163-14.653,80.185-41.062,108.068-79.226c27.88-38.161,41.825-81.126,41.825-128.906
+		C438.536,184.851,428.728,148.168,409.132,114.573z"/></g></svg></a>
+    </div>
+    <div class="pic" src="pic4.jpg"></div><hr>
+</div>
+<div class="show"><a class="bubble active" href="#1" id="b1">Лабораторная<div>1</div></a><a class="bubble" href="#2" id="b2">Лабораторная<div>2</div></a><a class="bubble" href="#3" id="b3">Лабораторная<div>3</div></a><a class="bubble" href="#4" id="b4">Командный<br>проект</a></div>
+<div class="lab now" id="1">
+    <h3>Ход лабораторной:</h3>
+    -Был создан репозиторий на GitHub, доступный по следующей ссылке: <a href="https://github.com/mpoles/mpoles.github.io">mpoles</a>
+    <br><br>
+    -В целях использования возможности эксплуатции GitHub в качестве хостингового сервиса в репозиторий были загружены личная страница отчёта по лабораторным работам и страница командного проекта
+    <br>
+    <img src="lab1.jpg">
+</div>
+<div class="lab" id="2">
+    <h3>Ход лабораторной:</h3>
+    -Было создано веб-приложение с использованием таких инструментов, как JavaScript и jQuery.
+    <br>
+    -Веб-приложение было опубликовано в GitHub и сейчас доступно по ссылке: <a href="https://mpoles.github.io/inet-2019">Веб-приложение</a>
+    <br><br>Созданное веб-приложение представляет собой веб-страницу с презентацией командного проекта
+    <br><img src="lab2.gif">
+    <br>Скрипты используются для навигации по сайту
+</div>
+<div class="lab" id="3">
+    <h3>Настройка сети</h3>
+    <h3>Вариант №7</h3>
+    <table class="highlight">
+        <thead>
+        <tr>
+            <th>Параметр</th>
+            <th>LAN A</th>
+            <th>LAN B</th>
+            <th>LAN C</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <td>Количество узлов</td>
+            <td>137</td>
+            <td>30</td>
+            <td>37</td>
+        </tr>
+        <tr>
+            <td>Ближайшая сверху степень двойки</td>
+            <td>8</td>
+            <td>5</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>Маска (префиксная)</td>
+            <td>24</td>
+            <td>27</td>
+            <td>26</td>
+        </tr>
+        <tr>
+            <td>Маска (десятичная)</td>
+            <td>255.255.255.0</td>
+            <td>255.255.255.224</td>
+            <td>255.255.255.192</td>
+        </tr>
+        <tr>
+            <td>Адрес</td>
+            <td>192.168.7.0</td>
+            <td>172.16.7.0</td>
+            <td>10.10.7.0</td>
+        </tr>
+        <tr>
+            <td>SUBNET</td>
+            <td>192.168.7.0</td>
+            <td>172.16.7.0</td>
+            <td>10.10.7.0</td>
+        </tr>
+        <tr>
+            <td>HOSTMIN</td>
+            <td>192.168.7.1</td>
+            <td>172.16.7.1</td>
+            <td>10.10.7.1</td>
+        </tr>
+        <tr>
+            <td>HOSTMAX</td>
+            <td>192.168.7.254</td>
+            <td>172.16.7.30</td>
+            <td>10.10.7.62</td>
+        </tr>
+        <tr>
+            <td>BROADCAST</td>
+            <td>192.168.7.255</td>
+            <td>172.16.7.31</td>
+            <td>10.10.7.63</td>
+        </tr>
+        </tbody>
+    </table>
+    <img src="laba3.jpg">
+</div>
+<div class="lab" id="4">
+    Командный проект под названием Athena Log Viewer был разработан командой "Рататуй":
+    <table>
+        <thead>
+        <tr>
+            <th>Член команды</th>
+            <th>Роль</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Денис Майорко</td>
+            <td>РП,ПП</td>
+        </tr>
+        <tr>
+            <td>Михаил Поляков</td>
+            <td>СП,НИ,ВН</td>
+        </tr>
+        <tr>
+            <td>Владимир Головцов</td>
+            <td>БА,АД,КО</td>
+        </tr>
+        </tbody>
+    </table>
+    <h4>Ознакомиться с проектом можно на презентационной странице:</h4><h2><a href="https://mpoles.github.io/inet-2019">Athena Log Viewer</a></h2>
+</div>
+</body>
+</html>
