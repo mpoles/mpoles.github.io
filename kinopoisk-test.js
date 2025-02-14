@@ -16,6 +16,6 @@ fetch(API_URL, {
     },
 })
     .then(res => res.json())
-    .then(json => console.log(json))
-    .catch(err => console.log(err));
+    .then(json => alert(json))
+    .catch(err => alert(err));
 })();
