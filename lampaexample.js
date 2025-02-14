@@ -33,13 +33,7 @@
             results: [
                 {
                     title: "Интерстеллар",
-                    poster_path: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", // Постер
-                    backdrop_path: "https://image.tmdb.org/t/p/w1280/9iB92Z4oK4LqM6h6y5Z6y5Z6y5Z.jpg", // Фоновое изображение
-                    overview: "Фильм о путешествиях через червоточину в поисках нового дома для человечества.",
-                    id: 157336, // ID фильма в TMDB
-                    year: 2014,
-                    genres: ["Фантастика", "Драма", "Приключения"],
-                    rating: 8.6
+                    id: 157336,
                 },
                 ...Array(19).fill().map((_,i) => ({
                     title: `Элемент ${i + 1}`,
