@@ -1,5 +1,5 @@
 (function() {
-
+    'use strict';
     if(window.kinopoisk_top_ready) return;
     window.kinopoisk_top_ready = true;
 
