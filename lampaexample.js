@@ -5,10 +5,9 @@
     window.kinopoisk_ready = true;
 
     const network = new Lampa.Reguest();
-    const api_url = 'https://your-kinopoisk-api.com/'; // Замените на ваш API
+    const api_url = 'https://your-kinopoisk-api.com/';
 
     function main(params, oncomplite, onerror) {
-        // Заглушка для примера. Замените на реальный запрос к API Кинопоиска
         const fakeData = {
             results: [
                 {
@@ -30,13 +29,29 @@
     }
 
     function full(params, oncomplite, onerror) {
-        // Заглушка для контента коллекции
         const fakeCollection = {
-            results: Array(20).fill().map((_,i) => ({
-                title: `Элемент ${i + 1}`,
-                poster_path: `https://placehold.co/200x300?text=${params.url}+${i}`,
-                description: "Пример описания"
-            })),
+            results: [
+                {
+                    title: "Интерстеллар",
+                    poster_path: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", // Постер
+                    backdrop_path: "https://image.tmdb.org/t/p/w1280/9iB92Z4oK4LqM6h6y5Z6y5Z6y5Z.jpg", // Фоновое изображение
+                    overview: "Фильм о путешествиях через червоточину в поисках нового дома для человечества.",
+                    id: 157336, // ID фильма в TMDB
+                    year: 2014,
+                    genres: ["Фантастика", "Драма", "Приключения"],
+                    rating: 8.6
+                },
+                ...Array(19).fill().map((_,i) => ({
+                    title: `Элемент ${i + 1}`,
+                    poster_path: `https://placehold.co/200x300?text=${params.url}+${i}`,
+                    backdrop_path: `https://placehold.co/1280x720?text=${params.url}+${i}`,
+                    overview: "Пример описания",
+                    id: i + 1,
+                    year: 2000 + i,
+                    genres: ["Жанр"],
+                    rating: 7.0
+                }))
+            ],
             total_pages: 5
         };
 
