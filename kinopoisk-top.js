@@ -7,6 +7,26 @@
     const API_TOKEN = '16TN8FF-YN5M1NN-HZNRG1F-HAX3JE2'; // ⚠️ Вынесите в отдельный файл!
     const network = new Lampa.Reguest();
 
+    (async function testAPI() {
+    const testUrl = 'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=1&sortField=rating.kp&sortType=-1&lists=top500';
+    const response = await fetch(testUrl, {
+        headers: {
+            'X-API-KEY': API_TOKEN,
+            'Accept': 'application/json'
+        }
+    });
+
+    if (!response.ok) {
+        console.error('[Kinopoisk] API Test Failed:', response.status, response.statusText);
+        return;
+    }
+
+    const data = await response.json();
+    console.log('[Kinopoisk] API Test Response:', data);
+})();
+const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || {};
+console.log('[Kinopoisk] Current Cache:', cache);
+    
     async function fetchData(url) {
         try {
             console.log('[Kinopoisk] Fetching:', url);
@@ -91,13 +111,15 @@
         return function(object) {
             const comp = new Lampa.InteractionCategory(object);
 
-            comp.create = async function() {
-                const data = await getTopData(type);
-                this.build({
-                    results: data.slice(0, 50),
-                    total_pages: Math.ceil(data.length / 50)
-                });
-            };
+comp.create = async function() {
+    console.log('[Kinopoisk] Fetching data for:', type); // Добавьте эту строку
+    const data = await getTopData(type);
+    console.log('[Kinopoisk] Data received:', data); // И эту
+    this.build({
+        results: data.slice(0, 50),
+        total_pages: Math.ceil(data.length / 50)
+    });
+};
 
             comp.nextPageReuest = function(params, resolve) {
                 const offset = (params.page - 1) * 50;
@@ -126,7 +148,6 @@
     }
 
     function initPlugin() {
-        alert('xyu');
         Lampa.Component.add('kinopoisk_movies', createComponent('movies'));
         Lampa.Component.add('kinopoisk_series', createComponent('series'));
 
@@ -141,30 +162,34 @@
             </li>
         `;
 
-        Lampa.Listener.follow('app', e => {
-            if(e.type === 'ready') {
-                const $menu = $('.menu .menu__list').eq(0);
-                const $button = $(menuHTML).on('hover:enter', () => {
-                    Lampa.Activity.push({
-                        component: 'kinopoisk_movies',
-                        url: '',
-                        title: 'Кинопоиск ТОП',
-                        page: 1,
-                        menu: [
-                            {
-                                title: 'Топ 500 фильмов',
-                                component: 'kinopoisk_movies'
-                            },
-                            {
-                                title: 'Топ 250 сериалов',
-                                component: 'kinopoisk_series'
-                            }
-                        ]
-                    });
-                });
-                $menu.append($button);
-            }
+Lampa.Listener.follow('app', e => {
+    console.log('[Kinopoisk] App event:', e.type); // Добавьте эту строку
+
+    if(e.type === 'ready') {
+        console.log('[Kinopoisk] App is ready, adding menu button'); // И эту
+        const $menu = $('.menu .menu__list').eq(0);
+        const $button = $(menuHTML).on('hover:enter', () => {
+            console.log('[Kinopoisk] Menu button clicked'); // И эту
+            Lampa.Activity.push({
+                component: 'kinopoisk_movies',
+                url: '',
+                title: 'Кинопоиск ТОП',
+                page: 1,
+                menu: [
+                    {
+                        title: 'Топ 500 фильмов',
+                        component: 'kinopoisk_movies'
+                    },
+                    {
+                        title: 'Топ 250 сериалов',
+                        component: 'kinopoisk_series'
+                    }
+                ]
+            });
         });
+        $menu.append($button);
+    }
+});
     }
 
     initPlugin();
