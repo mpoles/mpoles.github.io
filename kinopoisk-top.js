@@ -24,7 +24,7 @@
     const data = await response.json();
     console.log('[Kinopoisk] API Test Response:', data);
 })();
-const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || {};
+const cache = JSON.parse(localStorage.getItem(CACHE_KEY)) || {};
 console.log('[Kinopoisk] Current Cache:', cache);
     
     async function fetchData(url) {
