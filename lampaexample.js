@@ -1,26 +1,28 @@
-Lampa.Plugin.add('my_plugin', {
+Lampa.Plugin.add('kinopoisk_category', {
     init: function() {
-        console.log('Мой плагин загружен!');
+        console.log('Плагин "Кинопоиск" загружен!');
 
-        // Пример добавления новой кнопки в интерфейс
+        // Ожидаем, пока приложение полностью загрузится
         Lampa.Listener.follow('app', function(e) {
             if (e.name === 'ready') {
-                let myButton = document.createElement('div');
-                myButton.innerHTML = 'Моя кнопка';
-                myButton.style.position = 'fixed';
-                myButton.style.bottom = '20px';
-                myButton.style.right = '20px';
-                myButton.style.padding = '10px';
-                myButton.style.backgroundColor = 'blue';
-                myButton.style.color = 'white';
-                myButton.style.cursor = 'pointer';
-                myButton.style.zIndex = 1000;
+                console.log('Приложение готово, добавляю категорию "Кинопоиск"...');
 
-                myButton.addEventListener('click', function() {
-                    alert('Кнопка нажата!');
+                // Создаем новую категорию
+                Lampa.Sidebar.add({
+                    name: 'kinopoisk', // Уникальное имя категории
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>', // Иконка (можно заменить на свою)
+                    title: 'Кинопоиск', // Название категории
+                    component: {
+                        template: `
+                            <div style="padding: 20px;">
+                                <h1>Кинопоиск</h1>
+                                <p>Здесь будет контент для Кинопоиска.</p>
+                            </div>
+                        `, // Шаблон для отображения контента
+                    },
                 });
 
-                document.body.appendChild(myButton);
+                console.log('Категория "Кинопоиск" добавлена!');
             }
         });
     }
