@@ -51,7 +51,7 @@
                     year: item.year,
                     rating: item.rating?.kp,
                     type: type === 'movies' ? 'movie' : 'tv'
-                }));
+                })));
             }
         }
 
