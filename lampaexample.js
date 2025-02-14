@@ -1,29 +1,48 @@
-Lampa.Plugin.add('kinopoisk_category', {
-    init: function() {
-        console.log('Плагин "Кинопоиск" загружен!');
+(function() {
+    // Ждем, пока Lampa будет готова
+    function waitForLampa() {
+        if (window.Lampa && window.Lampa.Plugin) {
+            // Lampa загружена, регистрируем плагин
+            registerPlugin();
+        } else {
+            // Lampa ещё не загружена, ждём
+            setTimeout(waitForLampa, 100);
+        }
+    }
 
-        // Ожидаем, пока приложение полностью загрузится
-        Lampa.Listener.follow('app', function(e) {
-            if (e.name === 'ready') {
-                console.log('Приложение готово, добавляю категорию "Кинопоиск"...');
+    // Регистрация плагина
+    function registerPlugin() {
+        Lampa.Plugin.add('kinopoisk_category', {
+            init: function() {
+                console.log('Плагин "Кинопоиск" загружен!');
 
-                // Создаем новую категорию
-                Lampa.Sidebar.add({
-                    name: 'kinopoisk', // Уникальное имя категории
-                    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>', // Иконка (можно заменить на свою)
-                    title: 'Кинопоиск', // Название категории
-                    component: {
-                        template: `
-                            <div style="padding: 20px;">
-                                <h1>Кинопоиск</h1>
-                                <p>Здесь будет контент для Кинопоиска.</p>
-                            </div>
-                        `, // Шаблон для отображения контента
-                    },
+                // Ожидаем, пока приложение полностью загрузится
+                Lampa.Listener.follow('app', function(e) {
+                    if (e.name === 'ready') {
+                        console.log('Приложение готово, добавляю категорию "Кинопоиск"...');
+
+                        // Создаем новую категорию
+                        Lampa.Sidebar.add({
+                            name: 'kinopoisk', // Уникальное имя категории
+                            icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 22h20L12 2z"/></svg>', // Иконка
+                            title: 'Кинопоиск', // Название категории
+                            component: {
+                                template: `
+                                    <div style="padding: 20px;">
+                                        <h1>Кинопоиск</h1>
+                                        <p>Здесь будет контент для Кинопоиска.</p>
+                                    </div>
+                                `, // Шаблон для отображения контента
+                            },
+                        });
+
+                        console.log('Категория "Кинопоиск" добавлена!');
+                    }
                 });
-
-                console.log('Категория "Кинопоиск" добавлена!');
             }
         });
     }
-});
+
+    // Запускаем ожидание Lampa
+    waitForLampa();
+})();
