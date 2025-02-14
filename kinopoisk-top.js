@@ -1,125 +1,39 @@
 (function() {
     'use strict';
+
     if(window.kinopoisk_top_ready) return;
     window.kinopoisk_top_ready = true;
 
-    const CACHE_KEY = 'kinopoisk_cache';
-    const API_TOKEN = '16TN8FF-YN5M1NN-HZNRG1F-HAX3JE2'; // ⚠️ Вынесите в отдельный файл!
-    const network = new Lampa.Reguest();
+    const CACHE_URL = 'https://raw.githubusercontent.com/mpoles/kinopoisk-cache/main/data.json';
+    let cacheData = null;
 
-    (async function testAPI() {
-    const testUrl = 'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=1&sortField=rating.kp&sortType=-1&lists=top500';
-    const response = await fetch(testUrl, {
-        headers: {
-            'X-API-KEY': API_TOKEN,
-            'Accept': 'application/json'
-        }
-    });
-
-    if (!response.ok) {
-        console.error('[Kinopoisk] API Test Failed:', response.status, response.statusText);
-        return;
-    }
-
-    const data = await response.json();
-    console.log('[Kinopoisk] API Test Response:', data);
-})();
-const cache = JSON.parse(localStorage.getItem(CACHE_KEY)) || {};
-console.log('[Kinopoisk] Current Cache:', cache);
-    
-    async function fetchData(url) {
+    async function loadData(type) {
         try {
-            console.log('[Kinopoisk] Fetching:', url);
-            const response = await network.native(url, {
-                headers: {
-                    'X-API-KEY': API_TOKEN,
-                    'Accept': 'application/json'
-                }
-            });
+            const today = new Date().toISOString().split('T')[0];
             
-            console.log('[Kinopoisk] Response:', response);
-            return response;
+            if(!cacheData || cacheData.date !== today) {
+                const response = await fetch(`${CACHE_URL}?t=${Date.now()}`);
+                cacheData = await response.json();
+            }
+
+            return cacheData[type] || [];
         } catch(e) {
-            console.error('[Kinopoisk] API Error:', e);
-            return null;
+            console.error('Cache load error:', e);
+            return [];
         }
     }
 
-    async function getTopData(type) {
-        const today = new Date().toISOString().split('T')[0];
-        const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-        
-        console.log('[Kinopoisk] Cache state:', cache);
-
-        // Если есть актуальный кеш
-        if(cache.date === today && cache[type]?.length > 0) {
-            console.log('[Kinopoisk] Using cached data for', type);
-            return cache[type];
-        }
-
-        console.log('[Kinopoisk] Fetching fresh data for', type);
-        
-        let data = [];
-        const urls = {
-            movies: [
-                'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&sortField=rating.kp&sortType=-1&lists=top500',
-                'https://api.kinopoisk.dev/v1.4/movie?page=2&limit=250&sortField=rating.kp&sortType=-1&lists=top500'
-            ],
-            series: [
-                'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&sortField=rating.kp&sortType=-1&lists=series-top250'
-            ]
-        };
-
-        try {
-            for(const url of urls[type]) {
-                const response = await fetchData(url);
-                if(response?.docs) {
-                    data = data.concat(response.docs.map(item => {
-                        const tmdbId = item.externalId?.tmdb || item.id;
-                        if(!tmdbId) {
-                            console.warn('[Kinopoisk] Missing TMDB ID for:', item.name);
-                            return null;
-                        }
-                        
-                        return {
-                            id: tmdbId,
-                            title: item.name,
-                            poster_path: item.poster?.url,
-                            backdrop_path: item.poster?.url,
-                            year: item.year,
-                            rating: item.rating?.kp,
-                            type: type === 'movies' ? 'movie' : 'tv'
-                        };
-                    }).filter(Boolean));
-                }
-            }
-            
-            // Сохраняем только если получили данные
-            if(data.length > 0) {
-                const newCache = {...cache, [type]: data, date: today};
-                localStorage.setItem(CACHE_KEY, JSON.stringify(newCache));
-                console.log('[Kinopoisk] Data cached successfully');
-            }
-        } catch(e) {
-            console.error('[Kinopoisk] Data processing error:', e);
-        }
-
-        return data;
-    }
-
-    function createComponent(type) {
+    function createComponent(type, title) {
         return function(object) {
             const comp = new Lampa.InteractionCategory(object);
 
-comp.create = async function() {
-    console.log('[Kinopoisk] Fetching data for:', type); // Добавьте эту строку
-    const data = await getTopData(type);
-    console.log('[Kinopoisk] Data received:', data); // И эту
-    this.build({
-        results: data.slice(0, 50),
-        total_pages: Math.ceil(data.length / 50)
-    });
-};
+            comp.create = async function() {
+                const data = await loadData(type);
+                this.build({
+                    results: data.slice(0, 50),
+                    total_pages: Math.ceil(data.length / 50)
+                });
+            };
 
             comp.nextPageReuest = function(params, resolve) {
                 const offset = (params.page - 1) * 50;
@@ -132,11 +46,11 @@ comp.create = async function() {
                 card.onMenu = false;
                 card.onEnter = () => {
                     Lampa.Activity.push({
-                        url: element.hpu,
-                        title: element.title,
+                        url: '',
+                        title: item.title,
                         component: 'full',
                         movie: {
-                            id: item.id,
+                            id: item.tmdb_id,
                             type: item.type
                         }
                     });
@@ -148,8 +62,8 @@ comp.create = async function() {
     }
 
     function initPlugin() {
-        Lampa.Component.add('kinopoisk_movies', createComponent('movies'));
-        Lampa.Component.add('kinopoisk_series', createComponent('series'));
+        Lampa.Component.add('kinopoisk_movies', createComponent('movies', 'Фильмы'));
+        Lampa.Component.add('kinopoisk_series', createComponent('series', 'Сериалы'));
 
         const menuHTML = `
             <li class="menu__item selector">
@@ -162,34 +76,30 @@ comp.create = async function() {
             </li>
         `;
 
-Lampa.Listener.follow('app', e => {
-    console.log('[Kinopoisk] App event:', e.type); // Добавьте эту строку
-
-    if(e.type === 'ready') {
-        console.log('[Kinopoisk] App is ready, adding menu button'); // И эту
-        const $menu = $('.menu .menu__list').eq(0);
-        const $button = $(menuHTML).on('hover:enter', () => {
-            console.log('[Kinopoisk] Menu button clicked'); // И эту
-            Lampa.Activity.push({
-                component: 'kinopoisk_movies',
-                url: '',
-                title: 'Кинопоиск ТОП',
-                page: 1,
-                menu: [
-                    {
-                        title: 'Топ 500 фильмов',
-                        component: 'kinopoisk_movies'
-                    },
-                    {
-                        title: 'Топ 250 сериалов',
-                        component: 'kinopoisk_series'
-                    }
-                ]
-            });
+        Lampa.Listener.follow('app', e => {
+            if(e.type === 'ready') {
+                const $menu = $('.menu .menu__list').eq(0);
+                const $button = $(menuHTML).on('hover:enter', () => {
+                    Lampa.Activity.push({
+                        component: 'kinopoisk_movies',
+                        url: '',
+                        title: 'Кинопоиск ТОП',
+                        page: 1,
+                        menu: [
+                            {
+                                title: 'Топ 500 фильмов',
+                                component: 'kinopoisk_movies'
+                            },
+                            {
+                                title: 'Топ 250 сериалов',
+                                component: 'kinopoisk_series'
+                            }
+                        ]
+                    });
+                });
+                $menu.append($button);
+            }
         });
-        $menu.append($button);
-    }
-});
     }
 
     initPlugin();
