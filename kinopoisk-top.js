@@ -126,6 +126,7 @@
     }
 
     function initPlugin() {
+        alert('xyu');
         Lampa.Component.add('kinopoisk_movies', createComponent('movies'));
         Lampa.Component.add('kinopoisk_series', createComponent('series'));
 
