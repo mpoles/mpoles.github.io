@@ -10,14 +10,18 @@
 
     async function fetchData(url) {
         try {
-            return await network.native(url, {
+            console.log('[Kinopoisk] Fetching:', url);
+            const response = await network.native(url, {
                 headers: {
                     'X-API-KEY': API_TOKEN,
                     'Accept': 'application/json'
                 }
             });
+            
+            console.log('[Kinopoisk] Response:', response);
+            return response;
         } catch(e) {
-            console.error('API Error:', e);
+            console.error('[Kinopoisk] API Error:', e);
             return null;
         }
     }
@@ -25,11 +29,17 @@
     async function getTopData(type) {
         const today = new Date().toISOString().split('T')[0];
         const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+        
+        console.log('[Kinopoisk] Cache state:', cache);
 
-        if(cache.date === today && cache[type]) {
+        // Если есть актуальный кеш
+        if(cache.date === today && cache[type]?.length > 0) {
+            console.log('[Kinopoisk] Using cached data for', type);
             return cache[type];
         }
 
+        console.log('[Kinopoisk] Fetching fresh data for', type);
+        
         let data = [];
         const urls = {
             movies: [
@@ -41,23 +51,40 @@
             ]
         };
 
-        for(const url of urls[type]) {
-            const response = await fetchData(url);
-            if(response && response.docs) {
-                data = data.concat(response.docs.map(item => ({
-                    id: item.externalId?.tmdb || item.id,
-                    title: item.name,
-                    poster: item.poster?.url,
-                    year: item.year,
-                    rating: item.rating?.kp,
-                    type: type === 'movies' ? 'movie' : 'tv'
-                })));
+        try {
+            for(const url of urls[type]) {
+                const response = await fetchData(url);
+                if(response?.docs) {
+                    data = data.concat(response.docs.map(item => {
+                        const tmdbId = item.externalId?.tmdb || item.id;
+                        if(!tmdbId) {
+                            console.warn('[Kinopoisk] Missing TMDB ID for:', item.name);
+                            return null;
+                        }
+                        
+                        return {
+                            id: tmdbId,
+                            title: item.name,
+                            poster_path: item.poster?.url,
+                            backdrop_path: item.poster?.url,
+                            year: item.year,
+                            rating: item.rating?.kp,
+                            type: type === 'movies' ? 'movie' : 'tv'
+                        };
+                    }).filter(Boolean));
+                }
             }
+            
+            // Сохраняем только если получили данные
+            if(data.length > 0) {
+                const newCache = {...cache, [type]: data, date: today};
+                localStorage.setItem(CACHE_KEY, JSON.stringify(newCache));
+                console.log('[Kinopoisk] Data cached successfully');
+            }
+        } catch(e) {
+            console.error('[Kinopoisk] Data processing error:', e);
         }
 
-        const newCache = {...cache, [type]: data, date: today};
-        localStorage.setItem(CACHE_KEY, JSON.stringify(newCache));
-        
         return data;
     }
 
