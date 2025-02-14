@@ -8,22 +8,14 @@
 
     const network = new Lampa.Reguest();
 
-    async function fetchData() {
-        try {
-            console.log('[Kinopoisk Test] Fetching data from:', API_URL);
-            
-            const response = await network.native(API_URL, {
-                headers: {
-                    'X-API-KEY': API_TOKEN,
-                    'Accept': 'application/json'
-                }
-            });
-
-            console.log('[Kinopoisk Test] API Response:', response);
-        } catch (error) {
-            console.error('[Kinopoisk Test] Error:', error);
-        }
-    }
-
-    fetchData();
+fetch(API_URL, {
+    method: 'GET',
+    headers: {
+        'X-API-KEY': API_TOKEN,
+        'Content-Type': 'application/json',
+    },
+})
+    .then(res => res.json())
+    .then(json => console.log(json))
+    .catch(err => console.log(err));
 })();
