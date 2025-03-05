@@ -1,105 +1,149 @@
-(function() {
+(function () { 
     'use strict';
 
-    if(window.kinopoisk_top_ready) return;
-    window.kinopoisk_top_ready = true;
+    if(window.kinopoisk_ready) return;
+    window.kinopoisk_ready = true;
 
-    const CACHE_URL = 'https://raw.githubusercontent.com/mpoles/kinopoisk-cache/main/data.json';
-    let cacheData = null;
+    const network = new Lampa.Reguest();
+    const backend_url = 'https://kftop.free.nf/get_data.php';
 
-    async function loadData(type) {
-        try {
-            const today = new Date().toISOString().split('T')[0];
-            
-            if(!cacheData || cacheData.date !== today) {
-                const response = await fetch(`${CACHE_URL}?t=${Date.now()}`);
-                cacheData = await response.json();
-            }
+    function main(params, oncomplite, onerror) {
+        network.silent(backend_url, function(json) {
+            let movies = json.movies || [];
+            let series = json.series || [];
 
-            return cacheData[type] || [];
-        } catch(e) {
-            console.error('Cache load error:', e);
-            return [];
-        }
+            // Use first item poster as collection image if available, else fallback
+            let movies_img = movies.length ? movies[0].poster_path : 'https://example.com/movies.jpg';
+            let series_img = series.length ? series[0].poster_path : 'https://example.com/series.jpg';
+
+            const data = {
+                results: [
+                    {
+                        title: "Топ 500 фильмов",
+                        img: movies_img,
+                        hpu: "movies"
+                    },
+                    {
+                        title: "Топ 500 сериалов",
+                        img: series_img,
+                        hpu: "series"
+                    }
+                ],
+                total_pages: 1,
+                collection: true
+            };
+            oncomplite(data);
+        }, function(e) {
+            onerror(e);
+        });
     }
 
-    function createComponent(type, title) {
-        return function(object) {
-            const comp = new Lampa.InteractionCategory(object);
-
-            comp.create = async function() {
-                const data = await loadData(type);
-                this.build({
-                    results: data.slice(0, 50),
-                    total_pages: Math.ceil(data.length / 50)
-                });
+    function full(params, oncomplite, onerror) {
+        network.silent(backend_url, function(json) {
+            let collection = [];
+            if(params.url === "movies" || params.url === "top500movies"){
+                collection = json.movies || [];
+            } else if(params.url === "series" || params.url === "top500series"){
+                collection = json.series || [];
+            }
+            const data = {
+                results: collection,
+                total_pages: 1
             };
+            oncomplite(data);
+        }, function(e) {
+            onerror(e);
+        });
+    }
 
-            comp.nextPageReuest = function(params, resolve) {
-                const offset = (params.page - 1) * 50;
-                resolve({
-                    results: this.data.results.slice(offset, offset + 50)
-                });
-            };
+    function clear() {
+        network.clear();
+    }
 
-            comp.cardRender = function(item, element, card) {
-                card.onMenu = false;
-                card.onEnter = () => {
-                    Lampa.Activity.push({
-                        url: '',
-                        title: item.title,
-                        component: 'full',
-                        movie: {
-                            id: item.tmdb_id,
-                            type: item.type
-                        }
-                    });
-                };
-            };
+    const Api = { main, full, clear };
 
-            return comp;
+    function kinopoiskMainComponent(object) {
+        const comp = new Lampa.InteractionCategory(object);
+
+        comp.create = function () {
+            Api.main(object, this.build.bind(this), this.empty.bind(this));
         };
+
+        comp.nextPageReuest = function (object, resolve, reject) {
+            Api.main(object, resolve.bind(comp), reject.bind(comp));
+        };
+
+        comp.cardRender = function (object, element, card) {
+            card.onMenu = false;
+            card.onEnter = function () {
+                Lampa.Activity.push({
+                    url: element.hpu,
+                    title: element.title,
+                    component: 'kinopoisk_collection',
+                    page: 1
+                });
+            };
+        };
+
+        return comp;
+    }
+
+    function kinopoiskCollectionComponent(object) {
+        const comp = new Lampa.InteractionCategory(object);
+
+        comp.create = function () {
+            Api.full(object, this.build.bind(this), this.empty.bind(this));
+        };
+
+        comp.nextPageReuest = function (object, resolve, reject) {
+            Api.full(object, resolve.bind(comp), reject.bind(comp));
+        };
+
+        return comp;
     }
 
     function initPlugin() {
-        Lampa.Component.add('kinopoisk_movies', createComponent('movies', 'Фильмы'));
-        Lampa.Component.add('kinopoisk_series', createComponent('series', 'Сериалы'));
+        const manifest = {
+            type: 'video',
+            version: '1.0.0',
+            name: 'Кинопоиск',
+            description: 'Топ 500 фильмов и сериалов с Кинопоиска',
+            component: 'kinopoisk_main'
+        };
 
-        const menuHTML = `
-            <li class="menu__item selector">
-                <div class="menu__ico">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18 3H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zm-6 14.25a.75.75 0 0 1-.75-.75V7.5a.75.75 0 0 1 1.5 0v9a.75.75 0 0 1-.75.75zm3-3a.75.75 0 0 1-.75-.75v-6a.75.75 0 0 1 1.5 0v6a.75.75 0 0 1-.75.75zm-6 0a.75.75 0 0 1-.75-.75v-6a.75.75 0 0 1 1.5 0v6a.75.75 0 0 1-.75.75z"/>
-                    </svg>
-                </div>
-                <div class="menu__text">Кинопоиск ТОП</div>
-            </li>
-        `;
+        Lampa.Component.add('kinopoisk_main', kinopoiskMainComponent);
+        Lampa.Component.add('kinopoisk_collection', kinopoiskCollectionComponent);
 
-        Lampa.Listener.follow('app', e => {
-            if(e.type === 'ready') {
-                const $menu = $('.menu .menu__list').eq(0);
-                const $button = $(menuHTML).on('hover:enter', () => {
-                    Lampa.Activity.push({
-                        component: 'kinopoisk_movies',
-                        url: '',
-                        title: 'Кинопоиск ТОП',
-                        page: 1,
-                        menu: [
-                            {
-                                title: 'Топ 500 фильмов',
-                                component: 'kinopoisk_movies'
-                            },
-                            {
-                                title: 'Топ 250 сериалов',
-                                component: 'kinopoisk_series'
-                            }
-                        ]
-                    });
+        function addMenuButton() {
+            const button = $(`
+                <li class="menu__item selector">
+                    <div class="menu__ico">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 22h20L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="menu__text">${manifest.name}</div>
+                </li>
+            `);
+
+            button.on('hover:enter', () => {
+                Lampa.Activity.push({
+                    url: '',
+                    title: manifest.name,
+                    component: 'kinopoisk_main',
+                    page: 1
                 });
-                $menu.append($button);
-            }
-        });
+            });
+
+            $('.menu .menu__list').eq(0).append(button);
+        }
+
+        if (window.appready) addMenuButton();
+        else {
+            Lampa.Listener.follow('app', (e) => {
+                if (e.type === 'ready') addMenuButton();
+            });
+        }
     }
 
     initPlugin();
