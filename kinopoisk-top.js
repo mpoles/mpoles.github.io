@@ -1,59 +1,62 @@
-(function () {
+(function () { 
     'use strict';
 
     if(window.kinopoisk_ready) return;
     window.kinopoisk_ready = true;
 
     const network = new Lampa.Reguest();
-    const api_url = 'https://your-kinopoisk-api.com/';
+    const backend_url = 'https://kftop.free.nf/get_data.php';
 
+    // MAIN MENU: fetch the data and build two collection items
     function main(params, oncomplite, onerror) {
-        const fakeData = {
-            results: [
-                {
-                    title: "Топ 500 фильмов",
-                    img: "https://example.com/movies.jpg",
-                    hpu: "top500movies"
-                },
-                {
-                    title: "Топ 500 сериалов",
-                    img: "https://example.com/series.jpg",
-                    hpu: "top500series"
-                }
-            ],
-            total_pages: 1
-        };
+        network.silent(backend_url, function(json) {
+            // Expecting json.movies and json.series arrays from backend
+            let movies = json.movies || [];
+            let series = json.series || [];
 
-        fakeData.collection = true;
-        oncomplite(fakeData);
+            // Use first item poster as collection image if available, else fallback
+            let movies_img = movies.length ? movies[0].poster_path : 'https://example.com/movies.jpg';
+            let series_img = series.length ? series[0].poster_path : 'https://example.com/series.jpg';
+
+            const data = {
+                results: [
+                    {
+                        title: "Топ 500 фильмов",
+                        img: movies_img,
+                        hpu: "movies" // identifier for movies collection
+                    },
+                    {
+                        title: "Топ 500 сериалов",
+                        img: series_img,
+                        hpu: "series" // identifier for series collection
+                    }
+                ],
+                total_pages: 1,
+                collection: true
+            };
+            oncomplite(data);
+        }, function(e) {
+            onerror(e);
+        });
     }
 
+    // COLLECTION: fetch full list details from backend based on selected collection
     function full(params, oncomplite, onerror) {
-        const fakeCollection = {
-            results: [
-                {
-                    title: "Интерстеллар",
-                    poster_path: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", // Постер
-                    overview: "Фильм о путешествиях через червоточину в поисках нового дома для человечества.",
-                    id: 157336, // ID фильма в TMDB
-                    year: 2014,
-                    genres: ["Фантастика", "Драма", "Приключения"],
-                    rating: 8.6
-                },
-                ...Array(19).fill().map((_,i) => ({
-                    title: `Элемент ${i + 1}`,
-                    poster_path: `https://placehold.co/200x300?text=${params.url}+${i}`,
-                    overview: "Пример описания",
-                    id: i + 1,
-                    year: 2000 + i,
-                    genres: ["Жанр"],
-                    rating: 7.0
-                }))
-            ],
-            total_pages: 5
-        };
-
-        oncomplite(fakeCollection);
+        network.silent(backend_url, function(json) {
+            let collection = [];
+            if(params.url === "movies" || params.url === "top500movies"){
+                collection = json.movies || [];
+            } else if(params.url === "series" || params.url === "top500series"){
+                collection = json.series || [];
+            }
+            const data = {
+                results: collection,
+                total_pages: 1
+            };
+            oncomplite(data);
+        }, function(e) {
+            onerror(e);
+        });
     }
 
     function clear() {
@@ -62,7 +65,7 @@
 
     const Api = { main, full, clear };
 
-    // Компонент для главного меню
+    // Main menu component for the plugin
     function kinopoiskMainComponent(object) {
         const comp = new Lampa.InteractionCategory(object);
 
@@ -76,7 +79,6 @@
 
         comp.cardRender = function (object, element, card) {
             card.onMenu = false;
-
             card.onEnter = function () {
                 Lampa.Activity.push({
                     url: element.hpu,
@@ -90,7 +92,7 @@
         return comp;
     }
 
-    // Компонент для коллекций
+    // Collection component for movies or series list
     function kinopoiskCollectionComponent(object) {
         const comp = new Lampa.InteractionCategory(object);
 
@@ -105,7 +107,7 @@
         return comp;
     }
 
-    // Инициализация плагина
+    // Plugin initialization and menu button registration
     function initPlugin() {
         const manifest = {
             type: 'video',
@@ -118,7 +120,7 @@
         Lampa.Component.add('kinopoisk_main', kinopoiskMainComponent);
         Lampa.Component.add('kinopoisk_collection', kinopoiskCollectionComponent);
 
-        // Добавляем кнопку в меню
+        // Add the plugin button to the menu
         function addMenuButton() {
             const button = $(`
                 <li class="menu__item selector">
@@ -151,6 +153,5 @@
         }
     }
 
-    // Запускаем плагин
     initPlugin();
 })();
