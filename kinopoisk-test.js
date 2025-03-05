@@ -1,21 +1,25 @@
-(function() {
-    'use strict';
+async function fetchData(url) {
+    const response = await fetch(url, {
+        headers: { 'X-API-KEY': '16TN8FF-YN5M1NN-HZNRG1F-HAX3JE2' }
+    });
+    return response.json();
+}
 
-    console.log('[Kinopoisk Test] Starting...');
+async function main() {
+    const rawData = await fetchData('https://api.kinopoisk.dev/v1.4/movie?page=1&limit=250&selectFields=externalId&selectFields=name&selectFields=year&selectFields=rating&selectFields=poster&selectFields=lists&notNullFields=externalId.tmdb&sortField=rating.kp&sortType=-1&lists=top500');
+    const movies1 = processItems(rawData.docs);
 
-    const API_TOKEN = '16TN8FF-YN5M1NN-HZNRG1F-HAX3JE2'; // Замените на ваш токен
-    const API_URL = 'https://api.kinopoisk.dev/v1.4/movie?page=1&limit=10&sortField=rating.kp&sortType=-1&lists=top500';
+}
 
-    const network = new Lampa.Reguest();
+function processItems(items, type) {
+    return items.map(item => ({
+        title: item.name,
+        year: item.year,
+        rating: item.rating?.kp,
+        poster: item.poster?.url,
+        tmdb_id: item.externalId?.tmdb,
+        type: 'movie'
+    }));
+}
 
-fetch(API_URL, {
-    method: 'GET',
-    headers: {
-        'X-API-KEY': API_TOKEN,
-        'Content-Type': 'application/json',
-    },
-})
-    .then(res => res.json())
-    .then(json => alert(json))
-    .catch(err => alert(err));
-})();
+main();
